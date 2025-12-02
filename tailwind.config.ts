@@ -72,22 +72,36 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "pulse-glow": {
+        "pulse-float": {
           "0%, 100%": { 
-            opacity: "1",
-            filter: "drop-shadow(0 0 20px hsl(199 100% 50%)) drop-shadow(0 0 40px hsl(210 100% 60%))"
+            transform: "translateY(0) scale(1)",
+            filter: "drop-shadow(0 0 30px hsl(180 100% 50%)) drop-shadow(0 0 60px hsl(180 100% 60%))"
+          },
+          "25%": { 
+            transform: "translateY(-20px) scale(1.05)",
+            filter: "drop-shadow(0 0 40px hsl(200 100% 50%)) drop-shadow(0 0 80px hsl(220 100% 60%))"
           },
           "50%": { 
-            opacity: "0.8",
-            filter: "drop-shadow(0 0 40px hsl(199 100% 50%)) drop-shadow(0 0 80px hsl(210 100% 60%))"
+            transform: "translateY(0) scale(1)",
+            filter: "drop-shadow(0 0 30px hsl(260 100% 60%)) drop-shadow(0 0 60px hsl(280 100% 50%))"
+          },
+          "75%": { 
+            transform: "translateY(20px) scale(0.95)",
+            filter: "drop-shadow(0 0 40px hsl(320 100% 50%)) drop-shadow(0 0 80px hsl(340 100% 60%))"
           },
         },
-        "explosion-zoom": {
-          "0%": { transform: "scale(0.3)", opacity: "0" },
-          "20%": { transform: "scale(0.5)", opacity: "1" },
-          "60%": { transform: "scale(1)", opacity: "1" },
-          "80%": { transform: "scale(8)", opacity: "0.8" },
-          "100%": { transform: "scale(20)", opacity: "0" },
+        "color-shift": {
+          "0%": { filter: "hue-rotate(0deg)" },
+          "25%": { filter: "hue-rotate(60deg)" },
+          "50%": { filter: "hue-rotate(120deg)" },
+          "75%": { filter: "hue-rotate(180deg)" },
+          "100%": { filter: "hue-rotate(360deg)" },
+        },
+        "zoom-through-gate": {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "40%": { transform: "scale(2)", opacity: "1" },
+          "70%": { transform: "scale(15)", opacity: "0.8" },
+          "100%": { transform: "scale(50)", opacity: "0" },
         },
         "shockwave": {
           "0%": { transform: "scale(0)", opacity: "1", borderWidth: "8px" },
@@ -122,8 +136,9 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "pulse-glow": "pulse-glow 2.5s ease-in-out infinite",
-        "explosion-zoom": "explosion-zoom 3s ease-out forwards",
+        "pulse-float": "pulse-float 3s ease-in-out infinite",
+        "color-shift": "color-shift 4s linear infinite",
+        "zoom-through-gate": "zoom-through-gate 3.5s ease-in forwards",
         "shockwave": "shockwave 1.5s ease-out forwards",
         "particle-burst": "particle-burst 2s ease-out forwards",
         "screen-shake": "screen-shake 0.8s ease-out",

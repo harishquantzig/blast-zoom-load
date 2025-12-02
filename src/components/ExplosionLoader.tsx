@@ -12,48 +12,48 @@ interface Particle {
 }
 
 export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
-  const [phase, setPhase] = useState<"loading" | "exploding" | "done">("loading");
+  const [phase, setPhase] = useState<"loading" | "zooming" | "done">("loading");
   const [showFlash, setShowFlash] = useState(false);
 
   const particles = useMemo(() => {
     const colors = [
-      "hsl(185, 100%, 50%)",
-      "hsl(199, 100%, 50%)",
-      "hsl(210, 100%, 60%)",
-      "hsl(220, 100%, 70%)",
-      "hsl(180, 100%, 60%)",
+      "hsl(180, 100%, 50%)",
+      "hsl(200, 100%, 50%)",
+      "hsl(260, 100%, 60%)",
+      "hsl(320, 100%, 50%)",
+      "hsl(280, 100%, 60%)",
     ];
     
-    return Array.from({ length: 40 }, (_, i) => {
-      const angle = (i / 40) * 360;
-      const distance = 150 + Math.random() * 300;
+    return Array.from({ length: 50 }, (_, i) => {
+      const angle = (i / 50) * 360;
+      const distance = 100 + Math.random() * 250;
       return {
         id: i,
         x: Math.cos((angle * Math.PI) / 180) * distance,
         y: Math.sin((angle * Math.PI) / 180) * distance,
-        size: 4 + Math.random() * 12,
+        size: 3 + Math.random() * 10,
         color: colors[Math.floor(Math.random() * colors.length)],
-        delay: Math.random() * 0.3,
+        delay: Math.random() * 0.2,
       };
     });
   }, []);
 
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
-      setPhase("exploding");
+      setPhase("zooming");
       setShowFlash(true);
-    }, 3500);
+    }, 4000);
 
     return () => clearTimeout(loadingTimer);
   }, []);
 
   useEffect(() => {
-    if (phase === "exploding") {
-      const flashTimer = setTimeout(() => setShowFlash(false), 1000);
+    if (phase === "zooming") {
+      const flashTimer = setTimeout(() => setShowFlash(false), 800);
       const doneTimer = setTimeout(() => {
         setPhase("done");
         onComplete();
-      }, 4000);
+      }, 4500);
 
       return () => {
         clearTimeout(flashTimer);
@@ -65,7 +65,7 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden ${
-        phase === "exploding" ? "animate-screen-shake" : ""
+        phase === "zooming" ? "animate-screen-shake" : ""
       }`}
     >
       {/* Background image */}
@@ -75,21 +75,24 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
         className="absolute inset-0 w-full h-full object-cover"
       />
       
-      {/* Radial glow behind logo */}
+      {/* Animated radial glow behind logo */}
       <div 
-        className="absolute w-[600px] h-[600px] rounded-full opacity-30"
+        className={`absolute w-[700px] h-[700px] rounded-full transition-all duration-1000 ${
+          phase === "zooming" ? "opacity-60 scale-150" : "opacity-40"
+        }`}
         style={{
-          background: "radial-gradient(circle, hsl(199, 100%, 50%) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(200 100% 60% / 0.6) 0%, hsl(280 100% 50% / 0.3) 40%, transparent 70%)",
+          animation: phase === "loading" ? "color-shift 4s linear infinite" : undefined,
         }}
       />
 
       {/* Flash overlay */}
       {showFlash && (
-        <div className="absolute inset-0 bg-accent animate-flash" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary animate-flash" />
       )}
 
-      {/* Shockwave rings */}
-      {phase === "exploding" && (
+      {/* Shockwave rings during zoom */}
+      {phase === "zooming" && (
         <>
           <div 
             className="absolute w-[200px] h-[200px] rounded-full border-primary animate-shockwave"
@@ -97,17 +100,17 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
           />
           <div 
             className="absolute w-[200px] h-[200px] rounded-full border-accent animate-shockwave"
-            style={{ animationDelay: "0.15s" }}
+            style={{ animationDelay: "0.2s" }}
           />
           <div 
             className="absolute w-[200px] h-[200px] rounded-full border-primary/50 animate-shockwave"
-            style={{ animationDelay: "0.3s" }}
+            style={{ animationDelay: "0.4s" }}
           />
         </>
       )}
 
-      {/* Particles */}
-      {phase === "exploding" && particles.map((particle) => (
+      {/* Particles burst outward during zoom */}
+      {phase === "zooming" && particles.map((particle) => (
         <div
           key={particle.id}
           className="absolute rounded-full animate-particle-burst"
@@ -122,40 +125,42 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
         />
       ))}
 
-      {/* Main logo */}
+      {/* Main logo with pulsating float and color shift */}
       <div
-        className={`relative z-10 transition-all duration-300 ${
+        className={`relative z-10 ${
           phase === "loading" 
-            ? "animate-pulse-glow" 
-            : phase === "exploding" 
-              ? "animate-explosion-zoom" 
+            ? "animate-pulse-float" 
+            : phase === "zooming" 
+              ? "animate-zoom-through-gate" 
               : "opacity-0"
         }`}
       >
         <img
           src={logo}
           alt="Logo"
-          className="w-48 h-auto md:w-64"
+          className={`w-56 h-auto md:w-72 ${phase === "loading" ? "animate-color-shift" : ""}`}
         />
       </div>
 
-      {/* Loading text */}
+      {/* Loading text with pulsating dots */}
       {phase === "loading" && (
         <div className="absolute bottom-20 flex flex-col items-center gap-4">
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="w-3 h-3 rounded-full bg-primary"
+                className="w-3 h-3 rounded-full"
                 style={{
-                  animation: "pulse-glow 1.4s ease-in-out infinite",
-                  animationDelay: `${i * 0.2}s`,
+                  animation: "pulse-float 1.5s ease-in-out infinite, color-shift 3s linear infinite",
+                  animationDelay: `${i * 0.25}s`,
+                  backgroundColor: "hsl(200, 100%, 50%)",
+                  boxShadow: "0 0 15px hsl(200, 100%, 50%)",
                 }}
               />
             ))}
           </div>
-          <p className="text-muted-foreground text-sm tracking-widest uppercase font-medium">
-            Initializing
+          <p className="text-primary text-sm tracking-widest uppercase font-medium animate-pulse">
+            Entering Gateway
           </p>
         </div>
       )}
