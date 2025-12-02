@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "@/assets/logo.png";
+import image from "../assets/background.png"
 
 export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
   const [phase, setPhase] = useState<"loading" | "zooming" | "done">("loading");
@@ -24,7 +25,13 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
   }, [phase, onComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-background">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
+      style={{
+          background: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+      }}
+    >
       {/* Subtle radial glow behind logo */}
       <div 
         className={`absolute w-[500px] h-[500px] rounded-full transition-all duration-1000 ${

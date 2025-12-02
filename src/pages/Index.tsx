@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { ExplosionLoader } from "@/components/ExplosionLoader";
 import logo from "@/assets/logo.png";
+import image from "../assets/background.png"
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,9 +15,14 @@ const Index = () => {
       {isLoading && <ExplosionLoader onComplete={handleLoadComplete} />}
       
       <div 
-        className={`min-h-screen flex flex-col items-center justify-center bg-background transition-opacity duration-500 ${
+        className={`min-h-screen flex flex-col items-center justify-center transition-opacity duration-500 ${
           isLoading ? "opacity-0" : "opacity-100"
         }`}
+        style={{
+          background: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <main className="flex flex-col items-center gap-8 px-4">
           <div 
