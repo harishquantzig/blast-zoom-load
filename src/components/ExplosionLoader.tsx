@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import logo from "@/assets/logo.png";
+import background from "@/assets/background.png";
 
 interface Particle {
   id: number;
@@ -41,18 +42,18 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
     const loadingTimer = setTimeout(() => {
       setPhase("exploding");
       setShowFlash(true);
-    }, 2000);
+    }, 3500);
 
     return () => clearTimeout(loadingTimer);
   }, []);
 
   useEffect(() => {
     if (phase === "exploding") {
-      const flashTimer = setTimeout(() => setShowFlash(false), 600);
+      const flashTimer = setTimeout(() => setShowFlash(false), 1000);
       const doneTimer = setTimeout(() => {
         setPhase("done");
         onComplete();
-      }, 2500);
+      }, 4000);
 
       return () => {
         clearTimeout(flashTimer);
@@ -63,12 +64,16 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-background overflow-hidden ${
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden ${
         phase === "exploding" ? "animate-screen-shake" : ""
       }`}
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background" />
+      {/* Background image */}
+      <img 
+        src={background} 
+        alt="" 
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       
       {/* Radial glow behind logo */}
       <div 
