@@ -36,15 +36,15 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
     }
   }, [phase, onComplete]);
 
-  // Generate hyperloop tunnel lines - progressive waves
-  const tunnelLines = Array.from({ length: 60 }, (_, i) => {
-    // Stagger delays so lines appear progressively (few at first, then more)
-    const wave = Math.floor(i / 10); // 6 waves of 10 lines each
-    const delay = wave * 0.25 + Math.random() * 0.15;
-    const duration = 0.4 + Math.random() * 0.2;
-    const yOffset = (Math.random() - 0.5) * 80;
-    const xOffset = (Math.random() - 0.5) * 60;
-    return { delay, duration, yOffset, xOffset, wave };
+  // Generate radial warp speed lines - emanating from center
+  const warpLines = Array.from({ length: 120 }, (_, i) => {
+    const angle = (i / 120) * 360 + Math.random() * 3; // Full circle with slight randomness
+    const wave = Math.floor(i / 20); // 6 waves of 20 lines each
+    const delay = wave * 0.3 + Math.random() * 0.2; // Progressive appearance
+    const duration = 0.5 + Math.random() * 0.3;
+    const length = 80 + Math.random() * 120; // Varying line lengths
+    const distance = 30 + Math.random() * 20; // Starting distance from center
+    return { angle, delay, duration, length, distance, wave };
   });
 
   return (
@@ -84,20 +84,21 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
         }}
       />
 
-      {/* Hyperloop tunnel lines - thin white lines moving towards viewer */}
+      {/* Radial warp speed lines - emanating outward from center */}
       {(phase === "warp" || phase === "flash") && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {tunnelLines.map((line, i) => (
+          {warpLines.map((line, i) => (
             <div
               key={i}
-              className="absolute animate-hyperloop-line"
+              className="absolute origin-center animate-warp-radial"
               style={{
-                width: "1px",
-                height: "40px",
-                background: `linear-gradient(to bottom, transparent, white 30%, white 70%, transparent)`,
-                transform: `translate(${line.xOffset}px, ${line.yOffset}px)`,
+                width: "2px",
+                height: `${line.length}px`,
+                background: `linear-gradient(to top, transparent, white 20%, white 80%, transparent)`,
+                transform: `rotate(${line.angle}deg) translateY(-${line.distance}px)`,
                 animationDelay: `${line.delay}s`,
                 animationDuration: `${line.duration}s`,
+                transformOrigin: "center bottom",
                 opacity: 0,
               }}
             />

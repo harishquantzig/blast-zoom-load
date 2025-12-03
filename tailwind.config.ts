@@ -120,20 +120,17 @@ export default {
             opacity: "0",
           },
         },
-        "hyperloop-line": {
+        "warp-radial": {
           "0%": { 
-            transform: "scale(0.3) translateY(0)",
             opacity: "0",
+            transform: "rotate(var(--rotate)) translateY(-30px) scaleY(0.3)",
           },
-          "10%": { 
-            opacity: "0.8",
-          },
-          "50%": {
-            opacity: "1",
+          "20%": { 
+            opacity: "0.9",
           },
           "100%": { 
-            transform: "scale(8) translateY(-100px)",
             opacity: "0",
+            transform: "rotate(var(--rotate)) translateY(-400px) scaleY(1.5)",
           },
         },
         "tunnel-zoom": {
@@ -177,7 +174,7 @@ export default {
         "portal-core": "portal-core 2.5s ease-in-out infinite",
         "logo-brighten": "logo-brighten 2.5s ease-out forwards",
         "logo-zoom-in": "logo-zoom-in 2s ease-in forwards",
-        "hyperloop-line": "hyperloop-line 0.8s ease-out forwards",
+        "warp-radial": "warp-radial 0.6s ease-out forwards",
         "tunnel-zoom": "tunnel-zoom 2s ease-out forwards",
         "portal-flash": "portal-flash 0.2s ease-out forwards",
         "pulse-float": "pulse-float 1.5s ease-in-out infinite",
