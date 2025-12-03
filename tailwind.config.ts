@@ -122,14 +122,17 @@ export default {
         },
         "hyperloop-line": {
           "0%": { 
-            transform: "scale(0.1) translateZ(-500px)",
+            transform: "scale(0.3) translateY(0)",
             opacity: "0",
           },
-          "30%": { 
+          "10%": { 
+            opacity: "0.8",
+          },
+          "50%": {
             opacity: "1",
           },
           "100%": { 
-            transform: "scale(50) translateZ(500px)",
+            transform: "scale(8) translateY(-100px)",
             opacity: "0",
           },
         },
