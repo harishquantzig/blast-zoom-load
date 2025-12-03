@@ -36,12 +36,13 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
     }
   }, [phase, onComplete]);
 
-  // Generate warp speed lines
-  const warpLines = Array.from({ length: 80 }, (_, i) => {
-    const angle = (i / 80) * 360;
-    const delay = Math.random() * 0.3;
-    const duration = 0.8 + Math.random() * 0.4;
-    return { angle, delay, duration };
+  // Generate hyperloop tunnel lines (horizontal, moving towards viewer)
+  const tunnelLines = Array.from({ length: 30 }, (_, i) => {
+    const delay = Math.random() * 0.5;
+    const duration = 0.6 + Math.random() * 0.3;
+    const yOffset = (Math.random() - 0.5) * 60; // Spread within the "gate" opening
+    const xOffset = (Math.random() - 0.5) * 40;
+    return { delay, duration, yOffset, xOffset };
   });
 
   return (
@@ -81,21 +82,22 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
         }}
       />
 
-      {/* Warp speed lines */}
+      {/* Hyperloop tunnel lines - moving towards viewer through the gate */}
       {(phase === "warp" || phase === "flash") && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          {warpLines.map((line, i) => (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          {tunnelLines.map((line, i) => (
             <div
               key={i}
-              className="absolute origin-center animate-warp-line"
+              className="absolute animate-hyperloop-line"
               style={{
-                width: "2px",
-                height: "0",
-                background: `linear-gradient(to top, transparent, hsl(200 100% 70%), hsl(180 100% 90%))`,
-                transform: `rotate(${line.angle}deg) translateY(-50px)`,
+                width: "3px",
+                height: "3px",
+                borderRadius: "50%",
+                background: `hsl(200 100% 80%)`,
+                transform: `translate(${line.xOffset}px, ${line.yOffset}px)`,
                 animationDelay: `${line.delay}s`,
                 animationDuration: `${line.duration}s`,
-                boxShadow: "0 0 10px hsl(200 100% 70%), 0 0 20px hsl(200 100% 50%)",
+                boxShadow: "0 0 8px hsl(200 100% 70%), 0 0 16px hsl(200 100% 60%)",
               }}
             />
           ))}
@@ -141,12 +143,12 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
         />
       </div>
 
-      {/* Flash overlay */}
+      {/* Subtle white flash overlay */}
       {phase === "flash" && (
         <div
           className="absolute inset-0 z-20 animate-portal-flash"
           style={{
-            background: "radial-gradient(circle, hsl(200 100% 90%) 0%, hsl(210 100% 70%) 50%, transparent 100%)",
+            background: "radial-gradient(circle, hsl(0 0% 100% / 0.9) 0%, hsl(0 0% 100% / 0.5) 40%, transparent 80%)",
           }}
         />
       )}

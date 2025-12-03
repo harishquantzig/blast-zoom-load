@@ -120,19 +120,17 @@ export default {
             opacity: "0",
           },
         },
-        "warp-line": {
+        "hyperloop-line": {
           "0%": { 
-            height: "0px",
+            transform: "scale(0.1) translateZ(-500px)",
             opacity: "0",
           },
-          "20%": { 
-            height: "50px",
+          "30%": { 
             opacity: "1",
           },
           "100%": { 
-            height: "800px",
+            transform: "scale(50) translateZ(500px)",
             opacity: "0",
-            transform: "translateY(-400px)",
           },
         },
         "tunnel-zoom": {
@@ -176,7 +174,7 @@ export default {
         "portal-core": "portal-core 2.5s ease-in-out infinite",
         "logo-brighten": "logo-brighten 2.5s ease-out forwards",
         "logo-zoom-in": "logo-zoom-in 2s ease-in forwards",
-        "warp-line": "warp-line 1s ease-out forwards",
+        "hyperloop-line": "hyperloop-line 0.8s ease-out forwards",
         "tunnel-zoom": "tunnel-zoom 2s ease-out forwards",
         "portal-flash": "portal-flash 0.2s ease-out forwards",
         "pulse-float": "pulse-float 1.5s ease-in-out infinite",
