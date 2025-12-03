@@ -36,15 +36,16 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
     }
   }, [phase, onComplete]);
 
-  // Generate radial warp speed lines - emanating from center
-  const warpLines = Array.from({ length: 120 }, (_, i) => {
-    const angle = (i / 120) * 360 + Math.random() * 3; // Full circle with slight randomness
-    const wave = Math.floor(i / 20); // 6 waves of 20 lines each
-    const delay = wave * 0.3 + Math.random() * 0.2; // Progressive appearance
-    const duration = 0.5 + Math.random() * 0.3;
-    const length = 80 + Math.random() * 120; // Varying line lengths
-    const distance = 30 + Math.random() * 20; // Starting distance from center
-    return { angle, delay, duration, length, distance, wave };
+  // Generate star blast lines - emanating from center like hyperspace
+  const starLines = Array.from({ length: 200 }, (_, i) => {
+    const angle = Math.random() * 360; // Random angles for natural star distribution
+    const wave = Math.floor(i / 30); // Progressive waves
+    const delay = wave * 0.25 + Math.random() * 0.15;
+    const duration = 0.4 + Math.random() * 0.4;
+    const length = 2 + Math.random() * 4; // Start as small dots
+    const distance = 5 + Math.random() * 30; // Start close to center
+    const size = 1 + Math.random() * 2; // Varying star sizes
+    return { angle, delay, duration, length, distance, size, wave };
   });
 
   return (
@@ -84,21 +85,23 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
         }}
       />
 
-      {/* Radial warp speed lines - emanating outward from center */}
+      {/* Star blast lines - shooting outward like hyperspace stars */}
       {(phase === "warp" || phase === "flash") && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {warpLines.map((line, i) => (
+          {starLines.map((star, i) => (
             <div
               key={i}
-              className="absolute origin-center animate-warp-radial"
+              className="absolute animate-star-blast"
               style={{
-                width: "2px",
-                height: `${line.length}px`,
-                background: `linear-gradient(to top, transparent, white 20%, white 80%, transparent)`,
-                transform: `rotate(${line.angle}deg) translateY(-${line.distance}px)`,
-                animationDelay: `${line.delay}s`,
-                animationDuration: `${line.duration}s`,
-                transformOrigin: "center bottom",
+                width: `${star.size}px`,
+                height: `${star.length}px`,
+                background: "white",
+                borderRadius: "50% 50% 50% 50% / 20% 20% 80% 80%",
+                boxShadow: "0 0 4px white, 0 0 8px white",
+                transform: `rotate(${star.angle}deg) translateY(-${star.distance}px)`,
+                animationDelay: `${star.delay}s`,
+                animationDuration: `${star.duration}s`,
+                transformOrigin: "center center",
                 opacity: 0,
               }}
             />
