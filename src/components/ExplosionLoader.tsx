@@ -36,13 +36,15 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
     }
   }, [phase, onComplete]);
 
-  // Generate hyperloop tunnel lines (horizontal, moving towards viewer)
-  const tunnelLines = Array.from({ length: 30 }, (_, i) => {
-    const delay = Math.random() * 0.5;
-    const duration = 0.6 + Math.random() * 0.3;
-    const yOffset = (Math.random() - 0.5) * 60; // Spread within the "gate" opening
-    const xOffset = (Math.random() - 0.5) * 40;
-    return { delay, duration, yOffset, xOffset };
+  // Generate hyperloop tunnel lines - progressive waves
+  const tunnelLines = Array.from({ length: 60 }, (_, i) => {
+    // Stagger delays so lines appear progressively (few at first, then more)
+    const wave = Math.floor(i / 10); // 6 waves of 10 lines each
+    const delay = wave * 0.25 + Math.random() * 0.15;
+    const duration = 0.4 + Math.random() * 0.2;
+    const yOffset = (Math.random() - 0.5) * 80;
+    const xOffset = (Math.random() - 0.5) * 60;
+    return { delay, duration, yOffset, xOffset, wave };
   });
 
   return (
@@ -82,7 +84,7 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
         }}
       />
 
-      {/* Hyperloop tunnel lines - moving towards viewer through the gate */}
+      {/* Hyperloop tunnel lines - thin white lines moving towards viewer */}
       {(phase === "warp" || phase === "flash") && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           {tunnelLines.map((line, i) => (
@@ -90,14 +92,13 @@ export const ExplosionLoader = ({ onComplete }: { onComplete: () => void }) => {
               key={i}
               className="absolute animate-hyperloop-line"
               style={{
-                width: "3px",
-                height: "3px",
-                borderRadius: "50%",
-                background: `hsl(200 100% 80%)`,
+                width: "1px",
+                height: "40px",
+                background: `linear-gradient(to bottom, transparent, white 30%, white 70%, transparent)`,
                 transform: `translate(${line.xOffset}px, ${line.yOffset}px)`,
                 animationDelay: `${line.delay}s`,
                 animationDuration: `${line.duration}s`,
-                boxShadow: "0 0 8px hsl(200 100% 70%), 0 0 16px hsl(200 100% 60%)",
+                opacity: 0,
               }}
             />
           ))}
