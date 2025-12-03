@@ -120,17 +120,23 @@ export default {
             opacity: "0",
           },
         },
-        "warp-radial": {
+        "star-blast": {
           "0%": { 
             opacity: "0",
-            transform: "rotate(var(--rotate)) translateY(-30px) scaleY(0.3)",
+            height: "2px",
           },
-          "20%": { 
-            opacity: "0.9",
+          "15%": { 
+            opacity: "1",
+            height: "4px",
+          },
+          "50%": {
+            opacity: "1",
+            height: "80px",
           },
           "100%": { 
             opacity: "0",
-            transform: "rotate(var(--rotate)) translateY(-400px) scaleY(1.5)",
+            height: "150px",
+            transform: "rotate(var(--angle)) translateY(-600px)",
           },
         },
         "tunnel-zoom": {
@@ -174,7 +180,7 @@ export default {
         "portal-core": "portal-core 2.5s ease-in-out infinite",
         "logo-brighten": "logo-brighten 2.5s ease-out forwards",
         "logo-zoom-in": "logo-zoom-in 2s ease-in forwards",
-        "warp-radial": "warp-radial 0.6s ease-out forwards",
+        "star-blast": "star-blast 0.6s ease-out forwards",
         "tunnel-zoom": "tunnel-zoom 2s ease-out forwards",
         "portal-flash": "portal-flash 0.2s ease-out forwards",
         "pulse-float": "pulse-float 1.5s ease-in-out infinite",
